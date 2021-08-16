@@ -24,15 +24,17 @@ public class BookingController {
 	 @Autowired
 	 private BookingService services;
 	 
-	 @GetMapping("/")
-		public String checkApiCall() {
-			return "This is Booking App testing API !";
-		}
+		/*
+		 * @GetMapping("/") 
+		 * public String checkApiCall() {
+		 *  return "This is Booking App testing API !"; 
+		 *  }
+		 */
 	 
 	    @ResponseStatus(HttpStatus.OK)
 	    @PostMapping(value="/setRoomCount", consumes = MediaType.APPLICATION_JSON_VALUE)
 	    public String setNoOfRooms(@RequestBody String roomCount) {
-	    	this.services.setNoOfRooms(Integer.parseInt(roomCount));
+	    	this.services.setNoOfRooms(roomCount);
 	        return "Now "+services.getNoOfRooms()+" rooms/day are available for bookings";
 	    }
 	     
@@ -42,6 +44,17 @@ public class BookingController {
 			 return this.services.getNoOfRooms()+" rooms/day are available for bookings";
 		 }
 		 
+	    @ResponseStatus(HttpStatus.OK)
+	    @PostMapping(value="/bookroom", consumes = MediaType.APPLICATION_JSON_VALUE)
+	    public String bookRoom(@RequestBody BookingDto bookingDto) {
+	        String res = this.services.bookRoom(bookingDto.getCustName(), bookingDto.getBookingDate());
+	     if("null".equals(res)) {   
+	    	 return "Room is not available on "+bookingDto.getBookingDate();
+		 }else {
+			 return "Here is your booking ref no "+res;
+		 }
+	    }
+	     
 	     @ResponseStatus(HttpStatus.OK)
 		 @GetMapping("/checkdate/{date}")
 		 public String checkDate(@PathVariable String date) {
@@ -53,11 +66,4 @@ public class BookingController {
 		 public List<BookingBO> checkGuest(@PathVariable String name) {
 			 return this.services.checkGuest(name);
 		 }
-		 
-	    @ResponseStatus(HttpStatus.OK)
-	    @PostMapping(value="/bookroom", consumes = MediaType.APPLICATION_JSON_VALUE)
-	    public String bookRoom(@RequestBody BookingDto bookingDto) {
-	        return this.services.bookRoom(bookingDto.getCustName(), bookingDto.getBookingDate());
-	    }
-		 
 }

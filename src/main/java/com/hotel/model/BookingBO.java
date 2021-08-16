@@ -1,13 +1,37 @@
+/*
+ * BookingBO
+ * Developer: Rengaraj Arumugam
+ * 
+ */
 package com.hotel.model;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookingBO {
+	
 	private String bookingNo;
 	private String custName;
 	private int roomNo;
 	private String bookingDate;
+	
+	public BookingBO(String custName, String bookingDate) {
+		super();
+		this.custName = custName;
+		this.bookingDate = bookingDate;
+	}
+	public BookingBO(String bookingNo, String custName, int roomNo, String bookingDate) {
+		super();
+		this.bookingNo = bookingNo;
+		this.custName = custName;
+		this.roomNo = roomNo;
+		this.bookingDate = bookingDate;
+	}
+
+	public BookingBO() {
+		super();
+	}
+
 	
 	public String getBookingNo() {
 		return bookingNo;
@@ -32,5 +56,13 @@ public class BookingBO {
 	}
 	public void setBookingDate(String bookingDate) {
 		this.bookingDate = bookingDate;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+	    BookingBO that = (BookingBO) o;
+	    return bookingDate.equals(that.bookingDate) && roomNo==that.roomNo && custName.equals(that.custName) && bookingNo.equals(that.bookingNo);
 	}
 }
