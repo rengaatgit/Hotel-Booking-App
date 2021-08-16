@@ -1,4 +1,4 @@
-# Hotel-Booking-App devloped by Rengaraj Arumugam
+# Hotel-Booking-App developed by Rengaraj Arumugam
 Hotel Booking Management App developed in Java &amp; Springboot 
 
 To test API exposed by appliction, include below items as part of your request:
