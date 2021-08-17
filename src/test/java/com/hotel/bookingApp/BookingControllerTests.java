@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.hotel.constants.BookingConstants;
 import com.hotel.controller.BookingController;
 import com.hotel.dto.BookingDto;
 import com.hotel.model.BookingBO;
@@ -34,7 +35,8 @@ class BookingControllerTests {
 
 	@Test
 	void testSetNoOfRooms() {
-		when(services.getNoOfRooms()).thenReturn(Integer.parseInt("2"));
+		when(services.setNoOfRooms("2")).thenReturn(BookingConstants.NO_ERROR);
+		when(services.getNoOfRooms()).thenReturn(2);
 		String res = bookingController.setNoOfRooms("2");	
 		assertEquals("Now 2 rooms/day are available for bookings",res);
 	}
@@ -50,7 +52,7 @@ class BookingControllerTests {
 	@Test
 	void testCheckDate() {
 		String date = "15-08-2021";
-		when(services.checkAvailableRooms(date)).thenReturn(Integer.parseInt("2"));
+		when(services.checkAvailableRooms(date)).thenReturn("2");
 		String res = bookingController.checkDate(date);	
 		assertEquals("2 rooms are available for bookings on "+date,res);
 	}
@@ -75,9 +77,11 @@ class BookingControllerTests {
 		String date = "16-08-2021";
 		BookingDto bo = new BookingDto(name, date);
 		String expectedRes = "16-08-2021-1";
-		when(services.bookRoom(name, date)).thenReturn(expectedRes);
-		String res = bookingController.bookRoom(bo);	
-		assertEquals("Here is your booking ref no "+expectedRes,res);
+		List<String> list = new ArrayList<String>();
+		list.add(expectedRes);
+		when(services.bookRoom(name, date)).thenReturn(list);
+		List<String> res = bookingController.bookRoom(bo);	
+		assertEquals("Here is your booking ref no ["+expectedRes+"]",res.get(0));
 	}
 
 }

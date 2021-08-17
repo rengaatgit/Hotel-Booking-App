@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.hotel.constants.BookingConstants;
 import com.hotel.model.BookingBO;
 import com.hotel.model.NoOfRooms;
 import com.hotel.service.BookingService;
@@ -37,16 +38,20 @@ class BookingServiceTests {
 	}
 	
 	@Test
-	void testSetNoOfRooms() {
-		String res = services.bookRoom("renga","15-08-2021");
-		assertEquals("15-08-2021-1",res);
+	void testBookRooms() {
+		List<String> expectedlist = new ArrayList<>(); //empty
+		expectedlist.add("15-08-2021-1");
+		List<String> res = services.bookRoom("renga","15-08-2021");
+		assertEquals(expectedlist,res);
 	}
 	
 	@Test
-	void testSetNoOfRoomsFails() {
+	void testBookRoomsFails() {
+		List<String> expectedlist = new ArrayList<>(); //empty
+		expectedlist.add(BookingConstants.NO_ERROR);
 		services.bookRoom("renga","15-08-2021");
-		String res = services.bookRoom("renga","15-08-2021");
-		assertEquals("null",res);
+		List<String> res = services.bookRoom("renga","15-08-2021");
+		assertEquals(expectedlist,res);
 	}
 
 	
@@ -58,8 +63,8 @@ class BookingServiceTests {
 	
 	@Test
 	void testCheckAvailableRooms() {
-		int res = services.checkAvailableRooms("15-08-2021");
-		assertEquals(1,res);
+		String res = services.checkAvailableRooms("15-08-2021");
+		assertEquals("1",res);
 	}
 	
 	
@@ -82,9 +87,11 @@ class BookingServiceTests {
 	
 	@Test
 	void testCheckGuestFails() {
-		List<BookingBO> expectedlist = new ArrayList<>(); //empty
+		String testName = "rengaaaaa";
+		List expectedlist = new ArrayList<>(); //empty
+		expectedlist.add(BookingConstants.I0002 + testName);
 		services.bookRoom("renga","15-08-2021");
-		List<BookingBO> res = services.checkGuest("rengaaaaa"); //should be empty
+		List res = services.checkGuest(testName); //should be empty
 		assert(expectedlist.equals(res));
 	}
 	
