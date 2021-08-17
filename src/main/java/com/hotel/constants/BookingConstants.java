@@ -3,7 +3,7 @@ package com.hotel.constants;
 public interface BookingConstants {
 	String NO_ERROR="NO_ERROR";
 	String ERROR_CHECK="E000";
-	String E0001 = "E0001 - Please enter number value without space";
+	String E0001 = "E0001 - Please enter valid positive number value (greater than 0) without space";
 	String E0002 = "E0002 - We are facing an issue while processing your request, Please try again";
 	String E0003 = "E0003 - Please enter valid date(dd-mm-yyyy) without space (example: 30-12-2021) ";
 	String E0004 = "E0004 - Please enter valid guest name";

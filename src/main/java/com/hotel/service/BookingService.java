@@ -40,8 +40,12 @@ public class BookingService {
 		String errorMsg = BookingConstants.NO_ERROR;
 		try {
 			int roomCnt = Integer.parseInt(cnt);
-			synchronized (this.noOfRooms) {
-				this.noOfRooms.setRoomCount(roomCnt);
+			if (roomCnt < 1) {
+				errorMsg = BookingConstants.E0001;
+			} else {
+				synchronized (this.noOfRooms) {
+					this.noOfRooms.setRoomCount(roomCnt);
+				}
 			}
 		} catch (NumberFormatException e) {
 			errorMsg = BookingConstants.E0001;
@@ -50,7 +54,7 @@ public class BookingService {
 			errorMsg = BookingConstants.E0002;
 			e.printStackTrace();
 		}
-		System.out.println("setNoOfRooms() returnVal: "+errorMsg);
+		System.out.println("setNoOfRooms() returnVal: " + errorMsg);
 		return errorMsg;
 
 	}
@@ -63,7 +67,7 @@ public class BookingService {
 		List<String> responseList = new ArrayList<String>();
 		String dateCheckStr = BookingUtil.validateDate(bookingDate);
 		String nameCheckStr = BookingUtil.validateName(custName);
-		if (BookingConstants.NO_ERROR.equals(dateCheckStr) && BookingConstants.NO_ERROR.equals(nameCheckStr)){
+		if (BookingConstants.NO_ERROR.equals(dateCheckStr) && BookingConstants.NO_ERROR.equals(nameCheckStr)) {
 			synchronized (this) {
 				int currentBookingCount = checkBookedRooms(bookingDate);
 				if (currentBookingCount < getNoOfRooms()) {
@@ -75,14 +79,14 @@ public class BookingService {
 					bo.setBookingNo(bno);
 					bookList.add(bo);
 					responseList.add(bno);
-				}else {
+				} else {
 					responseList.add(BookingConstants.NO_ERROR);
 				}
 			}
-		}else {
-			if(!BookingConstants.NO_ERROR.equals(dateCheckStr))
+		} else {
+			if (!BookingConstants.NO_ERROR.equals(dateCheckStr))
 				responseList.add(dateCheckStr);
-			if(!BookingConstants.NO_ERROR.equals(nameCheckStr))
+			if (!BookingConstants.NO_ERROR.equals(nameCheckStr))
 				responseList.add(nameCheckStr);
 		}
 		return responseList;
@@ -95,7 +99,7 @@ public class BookingService {
 	public String checkAvailableRooms(String bookingDate) {
 		String returnVal = BookingUtil.validateDate(bookingDate);
 		if (BookingConstants.NO_ERROR.equals(returnVal)) {
-			returnVal = String.valueOf(getNoOfRooms()-checkBookedRooms(bookingDate));
+			returnVal = String.valueOf(getNoOfRooms() - checkBookedRooms(bookingDate));
 		}
 		return returnVal;
 	}
@@ -104,13 +108,13 @@ public class BookingService {
 		List returnVal = new ArrayList();
 		String res = BookingUtil.validateName(name);
 		if (BookingConstants.NO_ERROR.equals(res)) {
-			List filterVal= bookList.stream().filter(b -> name.equals(b.getCustName())).collect(Collectors.toList());
-			if(filterVal == null || filterVal.isEmpty()) {
+			List filterVal = bookList.stream().filter(b -> name.equals(b.getCustName())).collect(Collectors.toList());
+			if (filterVal == null || filterVal.isEmpty()) {
 				returnVal.add(BookingConstants.I0002 + name);
-			}else {
+			} else {
 				returnVal.addAll(filterVal);
 			}
-		}else {
+		} else {
 			returnVal.add(res);
 		}
 		return returnVal;

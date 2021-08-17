@@ -12,6 +12,9 @@ import com.hotel.constants.BookingConstants;
 
 public class BookingUtil {
 	public static String validateDate(String dateStr) {
+		if(dateStr == null) {
+			return BookingConstants.E0003;
+		}
 		String errorMsg = BookingConstants.NO_ERROR;
 		try {
 			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);

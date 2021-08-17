@@ -72,6 +72,12 @@ class BookingUtilTests {
 		assertEquals(BookingConstants.E0003,res);
 	}
    
+   @Test
+	void testValidateDateFails5() {
+		String date = null;		
+		String res =  BookingUtil.validateDate(date);
+		assertEquals(BookingConstants.E0003,res);
+	}
    
    @Test
   	void testvalidateName2() {
@@ -132,6 +138,13 @@ class BookingUtilTests {
     @Test
   	void testvalidateNameFails4() {
   		String name = " ";		//space
+  		String res =  BookingUtil.validateName(name);
+  		assertEquals(BookingConstants.E0004,res);
+  	}
+    
+    @Test
+  	void testvalidateNameFails5() {
+  		String name = null;		//space
   		String res =  BookingUtil.validateName(name);
   		assertEquals(BookingConstants.E0004,res);
   	}
